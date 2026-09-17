@@ -1,0 +1,12 @@
+{
+  "card": {
+    "pick_camera": "Pick a camera",
+    "no_controls": "No PTZ controls found for \"{device}\" ({missing}). Is the camera pan-tilt, and the integration up to date?",
+    "camera_failed": "Could not build the camera card: {message}",
+    "watch": "Watch now",
+    "watch_hint": "Opens the live view; it closes itself after a while",
+    "live": "Live",
+    "live_hint": "Close the live view and let the camera sleep",
+    "goto": "Go to preset"
+  }
+}

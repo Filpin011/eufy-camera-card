@@ -1,0 +1,12 @@
+{
+  "card": {
+    "pick_camera": "Scegli una telecamera",
+    "no_controls": "Nessun controllo PTZ trovato per \"{device}\" ({missing}). La telecamera è pan-tilt e l’integrazione è aggiornata?",
+    "camera_failed": "Impossibile creare la card della telecamera: {message}",
+    "watch": "Guarda ora",
+    "watch_hint": "Apre la diretta; si chiude da sola dopo poco",
+    "live": "In diretta",
+    "live_hint": "Chiudi la diretta e lascia dormire la telecamera",
+    "goto": "Vai al preset"
+  }
+}

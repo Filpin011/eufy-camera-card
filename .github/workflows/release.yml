@@ -1,0 +1,34 @@
+# Package the card for HACS on every published release.
+#
+# HACS is only documented to fetch `.js` files from `dist`, and this card also
+# needs its translations and brand images — in a subdirectory, at that. A zip is
+# the one shape HACS extracts whole, so the layout survives installation.
+name: Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  zip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stamp the release version into the card
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          sed -i "s/^const VERSION = \".*\";/const VERSION = \"${version}\";/" \
+            dist/eufy-camera-card.js
+          grep -n '^const VERSION' dist/eufy-camera-card.js
+
+      - name: Build the zip
+        run: cd dist && zip -r ../eufy-camera-card.zip . && cd .. && unzip -l eufy-camera-card.zip
+
+      - name: Attach it to the release
+        run: gh release upload "${GITHUB_REF_NAME}" eufy-camera-card.zip --clobber
+        env:
+          GH_TOKEN: ${{ github.token }}

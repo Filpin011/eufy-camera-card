@@ -1,0 +1,12 @@
+{
+  "name": "eufy-camera-card",
+  "private": true,
+  "type": "module",
+  "description": "Lovelace card for pan-tilt eufy cameras",
+  "scripts": {
+    "test": "node test/test-card.mjs dist/eufy-camera-card.js && node test/test-compat.mjs dist/eufy-camera-card.js"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

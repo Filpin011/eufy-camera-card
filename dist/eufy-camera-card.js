@@ -64,7 +64,7 @@
  * one press every `interval` ms rather than streaming a continuous command.
  */
 
-const VERSION = "1.0.0";
+const VERSION = "0.1.0-beta";
 const DEFAULTS = {
   size: 180,
   interval: 350,

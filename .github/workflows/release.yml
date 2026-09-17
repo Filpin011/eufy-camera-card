@@ -1,34 +1,67 @@
-# Package the card for HACS on every published release.
+# Package the card and publish it — only when asked.
 #
-# HACS is only documented to fetch `.js` files from `dist`, and this card also
-# needs its translations and brand images — in a subdirectory, at that. A zip is
-# the one shape HACS extracts whole, so the layout survives installation.
+# Actions → Release → Run workflow, give it a version. It runs the tests, stamps
+# that version into the card, builds the zip, and publishes the release with the
+# zip attached. Nothing happens on a push.
+#
+# A zip rather than loose files because HACS is only documented to fetch `.js`
+# from `dist`, and this card also needs its translations and brand images — in a
+# subdirectory at that. A zip is the one shape HACS extracts whole, so the layout
+# survives installation.
 name: Release
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, e.g. 0.1.0-beta"
+        required: true
+      prerelease:
+        description: "Mark as a pre-release"
+        type: boolean
+        default: true
 
 permissions:
   contents: write
 
 jobs:
-  zip:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Stamp the release version into the card
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Test
         run: |
-          version="${GITHUB_REF_NAME#v}"
-          sed -i "s/^const VERSION = \".*\";/const VERSION = \"${version}\";/" \
+          npm install --no-audit --no-fund
+          npm test
+
+      - name: Stamp the version into the card
+        run: |
+          sed -i "s/^const VERSION = \".*\";/const VERSION = \"${{ inputs.version }}\";/" \
             dist/eufy-camera-card.js
           grep -n '^const VERSION' dist/eufy-camera-card.js
 
-      - name: Build the zip
-        run: cd dist && zip -r ../eufy-camera-card.zip . && cd .. && unzip -l eufy-camera-card.zip
+      - name: Keep the stamped version in the repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore: ${{ inputs.version }}" || echo "already at this version"
+          git push
 
-      - name: Attach it to the release
-        run: gh release upload "${GITHUB_REF_NAME}" eufy-camera-card.zip --clobber
+      - name: Build the zip
+        run: |
+          cd dist && zip -r ../eufy-camera-card.zip . && cd ..
+          unzip -l eufy-camera-card.zip
+
+      - name: Publish
+        run: |
+          flags=""
+          if [ "${{ inputs.prerelease }}" = "true" ]; then flags="--prerelease"; fi
+          gh release create "${{ inputs.version }}" eufy-camera-card.zip \
+            --title "${{ inputs.version }}" $flags --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}

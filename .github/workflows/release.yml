@@ -1,8 +1,11 @@
 # Package the card and publish it — only when asked.
 #
-# Actions → Release → Run workflow, give it a version. It runs the tests, stamps
-# that version into the card, commits it, and publishes the release. Nothing
+# Actions → Release → Run workflow, give it a version. It runs the tests, checks
+# the card already carries that version, and publishes the release. Nothing
 # happens on a push.
+#
+# Bump VERSION in dist/eufy-camera-card.js first and merge it: main is protected,
+# so this cannot write to the repository — only read it and tag it.
 #
 # HACS takes the files from `dist` at the release tag, so there is nothing to
 # attach: the card, its translations and its images all sit there flat.
@@ -37,18 +40,20 @@ jobs:
           npm install --no-audit --no-fund
           npm test
 
-      - name: Stamp the version into the card
+      - name: Check the card carries this version
+        # It verifies rather than writes: `main` is protected, so a workflow
+        # cannot push to it, and a release that quietly disagreed with the file
+        # would be worse than one that refuses to start. Bump VERSION in the card,
+        # merge it, then run this.
         run: |
-          sed -i "s/^const VERSION = \".*\";/const VERSION = \"${{ inputs.version }}\";/" \
-            dist/eufy-camera-card.js
-          grep -n '^const VERSION' dist/eufy-camera-card.js
-
-      - name: Keep the stamped version in the repository
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -am "chore: ${{ inputs.version }}" || echo "already at this version"
-          git push
+          want='${{ inputs.version }}'
+          have=$(sed -n 's/^const VERSION = "\(.*\)";/\1/p' dist/eufy-camera-card.js)
+          if [ "$have" != "$want" ]; then
+            echo "::error::dist/eufy-camera-card.js says VERSION \"$have\", you asked to release \"$want\"."
+            echo "::error::Update VERSION in the card, merge that, then run this again."
+            exit 1
+          fi
+          echo "card and release agree on $want"
 
       - name: Publish
         # No attached archive: HACS's validator rejects a zip for a plugin even

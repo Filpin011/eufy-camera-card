@@ -12,6 +12,10 @@ Releases are cut by the owner too, by hand — **Actions → Release → Run wor
 automatic publishing on push or merge, so a merged pull request does not become a release until it is
 deliberately made one.
 
+The workflow reads the repository but never writes to it: bump `VERSION` in
+`dist/eufy-camera-card.js`, merge that, then run the workflow with the same version. It refuses to
+publish if the two disagree, rather than shipping a card whose banner lies about which one it is.
+
 ## Before you open a pull request
 
 ```bash

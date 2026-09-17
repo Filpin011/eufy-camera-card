@@ -5,6 +5,7 @@
 **One Lovelace card for a pan-tilt eufy camera: the live picture, a d-pad that really moves it, and
 your saved positions a click away.**
 
+[![Website](https://img.shields.io/badge/website-eufy--camera--card.github.io-41BDF5?style=flat-square)](https://eufy-camera-card.github.io/)
 [![HACS](https://img.shields.io/badge/HACS-custom%20repository-41BDF5?style=flat-square)](https://hacs.xyz/docs/faq/custom_repositories/)
 [![Release](https://img.shields.io/github/v/release/Filpin011/eufy-camera-card?include_prereleases&style=flat-square&color=41BDF5)](https://github.com/Filpin011/eufy-camera-card/releases)
 [![Licence](https://img.shields.io/github/license/Filpin011/eufy-camera-card?style=flat-square)](LICENSE)

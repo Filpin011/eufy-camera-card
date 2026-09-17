@@ -22,8 +22,9 @@ So: fork or branch **from `dev`**, keep the change focused, and target `dev` wit
 One opened against `main` will be asked to retarget — `main` is a branch you release from, not one
 you develop on, and a diff against it carries everything already published.
 
-Both branches are protected, so nothing reaches either except through a pull request the owner
-reviews and merges.
+Both branches are protected against force-pushes and deletion, and neither accepts a push from
+anyone but the owner — so a contribution reaches them one way: a pull request the owner reviews and
+merges.
 
 Releases are cut by the owner, by hand — **Actions → Release → Run workflow**, on `main`. Nothing
 publishes on a push or a merge: a merged pull request becomes a release only when someone decides it

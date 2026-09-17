@@ -9,6 +9,8 @@ your saved positions a click away.**
 [![Release](https://img.shields.io/github/v/release/Filpin011/eufy-camera-card?include_prereleases&style=flat-square&color=41BDF5)](https://github.com/Filpin011/eufy-camera-card/releases)
 [![Licence](https://img.shields.io/github/license/Filpin011/eufy-camera-card?style=flat-square)](LICENSE)
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Filpin011&repository=eufy-camera-card)
+
 <img src="dist/preview.png" alt="The card in the Home Assistant picker: eufy logo, joystick and preset chips" width="330">
 
 </div>
@@ -35,14 +37,13 @@ You need:
 
 ## Install
 
-**1 · Add the repository to HACS**
+**1 · Add the repository to HACS** — one click:
 
-**HACS → ⋮ (top right) → Custom repositories**
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Filpin011&repository=eufy-camera-card)
 
-| field | value |
-| --- | --- |
-| Repository | `https://github.com/Filpin011/eufy-camera-card` |
-| Type | **Dashboard** *(called Lovelace on older HACS)* |
+Or by hand: **HACS → ⋮ (top right) → Custom repositories**, add
+`https://github.com/Filpin011/eufy-camera-card` with type **Dashboard** *(called Lovelace on older
+HACS)*.
 
 **2 · Download it** — search HACS for **Eufy - Camera**.
 

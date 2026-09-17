@@ -128,6 +128,14 @@
         opacity: 0.9;
       }
 
+      .my-badge {
+        display: inline-block;
+        line-height: 0;
+      }
+      .my-badge img {
+        height: 31px;
+      }
+
       /* ── shot ─────────────────────────────────────────────────────────── */
       .shot {
         display: block;
@@ -263,6 +271,15 @@
             >Releases</a
           >
         </div>
+        <div class="actions">
+          <a
+            class="my-badge"
+            href="https://my.home-assistant.io/redirect/hacs_repository/?owner=Filpin011&amp;repository=eufy-camera-card"
+            ><img
+              src="https://my.home-assistant.io/badges/hacs_repository.svg"
+              alt="Open your Home Assistant instance and open a repository inside the Home Assistant Community Store."
+          /></a>
+        </div>
         <img
           class="shot"
           src="preview.png"
@@ -310,11 +327,19 @@
         <h2>Install</h2>
         <ol class="steps">
           <li>
-            In Home Assistant: <strong>HACS → ⋮ → Custom repositories</strong>
-          </li>
-          <li>
-            Add <code>https://github.com/Filpin011/eufy-camera-card</code> with
-            type <strong>Dashboard</strong>
+            Add the repository to HACS — one click:
+            <a
+              class="my-badge"
+              href="https://my.home-assistant.io/redirect/hacs_repository/?owner=Filpin011&amp;repository=eufy-camera-card"
+              ><img
+                src="https://my.home-assistant.io/badges/hacs_repository.svg"
+                alt="Open your Home Assistant instance and open a repository inside the Home Assistant Community Store."
+            /></a>
+            <br />
+            or by hand:
+            <strong>HACS → ⋮ → Custom repositories</strong>, add
+            <code>https://github.com/Filpin011/eufy-camera-card</code> with type
+            <strong>Dashboard</strong>
           </li>
           <li>Search HACS for <strong>Eufy - Camera</strong> and download it</li>
           <li>Reload the browser with <code>Ctrl+Shift+R</code></li>

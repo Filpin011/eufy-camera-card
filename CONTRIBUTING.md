@@ -5,16 +5,34 @@ one.
 
 ## How changes land
 
-Everything goes through a pull request against `main`, and the repository owner reviews and merges
-it. `main` is protected: nobody pushes to it directly, and nothing merges without that review.
+Two long-lived branches:
 
-Releases are cut by the owner too, by hand — **Actions → Release → Run workflow**. There is no
-automatic publishing on push or merge, so a merged pull request does not become a release until it is
-deliberately made one.
+- **`dev`** — where work lands. Branch from it, and open your pull request against it.
+- **`main`** — the released card. It is what HACS installs, and it moves only when the owner merges
+  `dev` into it and tags that.
 
-The workflow reads the repository but never writes to it: bump `VERSION` in
-`dist/eufy-camera-card.js`, merge that, then run the workflow with the same version. It refuses to
-publish if the two disagree, rather than shipping a card whose banner lies about which one it is.
+```
+your branch ──► PR into dev ──► review ──► merged into dev
+                                                  │
+                    (when a release is ready)     ▼
+                                            PR dev ──► main ──► tag ──► HACS
+```
+
+So: fork or branch **from `dev`**, keep the change focused, and target `dev` with the pull request.
+One opened against `main` will be asked to retarget — `main` is a branch you release from, not one
+you develop on, and a diff against it carries everything already published.
+
+Both branches are protected, so nothing reaches either except through a pull request the owner
+reviews and merges.
+
+Releases are cut by the owner, by hand — **Actions → Release → Run workflow**, on `main`. Nothing
+publishes on a push or a merge: a merged pull request becomes a release only when someone decides it
+is one.
+
+The workflow reads the repository and never writes to it. Bump `VERSION` in
+`dist/eufy-camera-card.js` on `dev`, let it reach `main`, then run the workflow with that same
+version. It refuses if the two disagree, rather than shipping a card whose banner lies about which
+one it is.
 
 ## Before you open a pull request
 

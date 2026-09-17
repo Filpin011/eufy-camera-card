@@ -137,9 +137,12 @@ English. Pull requests with new languages are very welcome.
 
 <br>
 
-Releases are manual and never happen on a push: **Actions → Release → Run workflow**, give it a
-version such as `0.2.0-beta`. It runs the tests, stamps the version into the card, commits that, and
-publishes the release.
+Work lands on `dev`; `main` is the released card, and the only branch HACS installs from.
+
+To publish one: bump `VERSION` in `dist/eufy-camera-card.js` on `dev`, merge `dev` into `main`,
+then **Actions → Release → Run workflow** from `main` with that same version. It runs the tests,
+refuses if the card and the version you typed disagree, and tags the release. Nothing publishes on a
+push, and the workflow never writes to the repository.
 
 Everything HACS installs sits flat in `dist/` — the card, its translations, its images. No
 subdirectories and no attached archive: HACS validates a plugin by looking for a `.js` named after the

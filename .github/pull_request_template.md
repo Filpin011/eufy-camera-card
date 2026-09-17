@@ -1,3 +1,6 @@
+<!-- Target branch: dev. A pull request against main will be asked to retarget -
+     main only moves when a release is cut. -->
+
 ## What this changes
 
 <!-- One or two sentences. What is different afterwards? -->

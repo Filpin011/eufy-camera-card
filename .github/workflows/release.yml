@@ -4,8 +4,9 @@
 # the card already carries that version, and publishes the release. Nothing
 # happens on a push.
 #
-# Bump VERSION in dist/eufy-camera-card.js first and merge it: main is protected,
-# so this cannot write to the repository — only read it and tag it.
+# Work lands on dev; main is the released card. Bump VERSION in
+# dist/eufy-camera-card.js on dev and merge dev into main first: both branches
+# are protected, so this cannot write to the repository — only read it and tag it.
 #
 # HACS takes the files from `dist` at the release tag, so there is nothing to
 # attach: the card, its translations and its images all sit there flat.
@@ -29,6 +30,15 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
+      - name: Release from main only
+        # A tag cut from dev would publish a card that main — the branch this
+        # project calls released — has never seen.
+        run: |
+          if [ "${{ github.ref_name }}" != "main" ]; then
+            echo "::error::Releases are cut from main, not ${{ github.ref_name }}. Merge dev into main first."
+            exit 1
+          fi
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4

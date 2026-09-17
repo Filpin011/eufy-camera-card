@@ -1,13 +1,11 @@
 # Package the card and publish it — only when asked.
 #
 # Actions → Release → Run workflow, give it a version. It runs the tests, stamps
-# that version into the card, builds the zip, and publishes the release with the
-# zip attached. Nothing happens on a push.
+# that version into the card, commits it, and publishes the release. Nothing
+# happens on a push.
 #
-# A zip rather than loose files because HACS is only documented to fetch `.js`
-# from `dist`, and this card also needs its translations and brand images — in a
-# subdirectory at that. A zip is the one shape HACS extracts whole, so the layout
-# survives installation.
+# HACS takes the files from `dist` at the release tag, so there is nothing to
+# attach: the card, its translations and its images all sit there flat.
 name: Release
 
 on:
@@ -52,16 +50,15 @@ jobs:
           git commit -am "chore: ${{ inputs.version }}" || echo "already at this version"
           git push
 
-      - name: Build the zip
-        run: |
-          cd dist && zip -r ../eufy-camera-card.zip . && cd ..
-          unzip -l eufy-camera-card.zip
-
       - name: Publish
+        # No attached archive: HACS's validator rejects a zip for a plugin even
+        # though its installer would accept one (hacs/integration#4928). It takes
+        # the files from `dist` at the tag instead, which is why everything the
+        # card needs sits there flat, next to the .js.
         run: |
           flags=""
           if [ "${{ inputs.prerelease }}" = "true" ]; then flags="--prerelease"; fi
-          gh release create "${{ inputs.version }}" eufy-camera-card.zip \
+          gh release create "${{ inputs.version }}" \
             --title "${{ inputs.version }}" $flags --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}

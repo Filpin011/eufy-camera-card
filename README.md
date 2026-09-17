@@ -74,7 +74,7 @@ probably expect.
 
 ## Translations
 
-English and Italian are included. To add a language, drop `<lang>.json` into `dist/translations/`
+English and Italian are included. To add a language, drop `<lang>.json` into `dist/`
 with a `card` section — the card fetches it at runtime, so there is no JavaScript to edit:
 
 ```json
@@ -93,8 +93,13 @@ English. Pull requests with new languages are welcome.
 ## Releasing (maintainers)
 
 Releases are manual, never automatic on push: **Actions → Release → Run workflow**, give the version
-(for example `0.1.0-beta`). It runs the tests, stamps the version into the card, builds the zip and
-publishes the release with it attached.
+(for example `0.1.0-beta`). It runs the tests, stamps the version into the card, commits that, and
+publishes the release.
+
+Everything HACS installs lives flat in `dist/` — the card, its translations, its images. No
+subdirectories and no attached archive: HACS validates a plugin by looking for a `.js` named after
+the repository, and rejects a zip release even though its installer would accept one
+([hacs/integration#4928](https://github.com/hacs/integration/issues/4928)).
 
 ## Licence
 

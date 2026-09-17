@@ -1,7 +1,5 @@
 {
   "name": "Eufy - Camera",
-  "filename": "eufy-camera-card.zip",
-  "zip_release": true,
   "render_readme": true,
   "homeassistant": "2024.8.0"
 }

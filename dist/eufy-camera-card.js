@@ -128,7 +128,7 @@ async function loadStrings(language) {
   }
   for (const tag of tags) {
     try {
-      const response = await fetch(`${HERE}translations/${tag}.json`);
+      const response = await fetch(`${HERE}${tag}.json`);
       if (!response.ok) continue;
       const doc = await response.json();
       if (doc?.card) {
